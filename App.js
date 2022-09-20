@@ -3,8 +3,11 @@ import { StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import { useState } from 'react';
 import {Picker} from '@react-native-picker/picker';
 import { LinearGradient } from 'expo-linear-gradient';
+import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 
 export default function App() {
+
+const [initialState, setInitialState] = useState('start');
 
 const [seconds, setSeconds] = useState(0);
 const [minutes, setMinutes] = useState(0);
@@ -55,7 +58,7 @@ for(var i=1; i<=60;i++){
   numbers.push(i);
 }
 
-
+if(initialState == 'start'){
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
@@ -73,10 +76,10 @@ for(var i=1; i<=60;i++){
 
       <Text style={{color:'white', fontSize:25 }}>Select time interval:</Text>
 
-      <View style={{flexDirection:'row', alignItems:'center', paddingStart:15}}>
+      <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center'}}>
       
         <Text style={{color:'white', fontSize:12}}>Hours</Text>
-        <Picker style={{color:'white', height:50,width:95}} selectedValue={hours} onValueChange={(itemValue, itemIndex) => setHours(itemValue)}>
+        <Picker style={{color:'white', height:50,width:95, textAlign:'right'}} selectedValue={hours} onValueChange={(itemValue, itemIndex) => setHours(itemValue)}>
           <Picker.Item label="0" value="0" />
             {
               numbers.map(function(val){
@@ -107,7 +110,7 @@ for(var i=1; i<=60;i++){
       
       </View>
 
-      <View style={{flexDirection:'row'}}>
+      <View style={{flexDirection:'row', paddingTop:18}}>
         {
 
           alarmSound.map(function(val){
@@ -125,8 +128,23 @@ for(var i=1; i<=60;i++){
         
       </View>
 
+      <TouchableOpacity onPress={() => setInitialState('initiated')} style={{alignItems:'center', paddingTop:18}}><MaterialCommunityIcons name="play-box-outline" size={70} color="white" /><Text style={{textAlignVertical:'top', color:'white'}}>START</Text></TouchableOpacity>
+
     </View>
   );
+}else if(initialState == 'initiated'){
+  
+  return(
+    <View style={styles.container}>
+      <View>
+      <TouchableOpacity onPress={() => setInitialState('initiated')} style={{alignItems:'center', paddingTop:18}}><MaterialCommunityIcons name="play-box-outline" size={70} color="white" /><Text style={{textAlignVertical:'top', color:'white'}}>START</Text></TouchableOpacity>
+      </View>
+      
+    </View>
+  );
+  
+}
+
 
 }
 
