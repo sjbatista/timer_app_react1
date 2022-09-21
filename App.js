@@ -3,11 +3,12 @@ import { StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import { useState } from 'react';
 import {Picker} from '@react-native-picker/picker';
 import { LinearGradient } from 'expo-linear-gradient';
-import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import Counter from './Counter'; 
 
 export default function App() {
 
-const [initialState, setInitialState] = useState('start');
+const [initialState, setInitialState] = useState('select');
 
 const [seconds, setSeconds] = useState(0);
 const [minutes, setMinutes] = useState(0);
@@ -58,7 +59,7 @@ for(var i=1; i<=60;i++){
   numbers.push(i);
 }
 
-if(initialState == 'start'){
+if(initialState == 'select'){
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
@@ -79,14 +80,15 @@ if(initialState == 'start'){
       <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center'}}>
       
         <Text style={{color:'white', fontSize:12}}>Hours</Text>
-        <Picker style={{color:'white', height:50,width:95, textAlign:'right'}} selectedValue={hours} onValueChange={(itemValue, itemIndex) => setHours(itemValue)}>
-          <Picker.Item label="0" value="0" />
-            {
-              numbers.map(function(val){
-                return(<Picker.Item label={val.toString()} value={val.toString()} />);
-              })
-            } 
-        </Picker>
+            <Picker style={{color:'white', height:50,width:95, textAlign:'right'}} selectedValue={hours} onValueChange={(itemValue, itemIndex) => setHours(itemValue)}>
+              <Picker.Item label="0" value="0" />
+                {
+                  numbers.map(function(val){
+                    return(<Picker.Item label={val.toString()} value={val.toString()} />);
+                  })
+                } 
+            </Picker>
+    
 
         <Text style={{color:'white', fontSize:12}}>Minutes</Text>
         <Picker style={{color:'white', height:50,width:95}} selectedValue={minutes} onValueChange={(itemValue, itemIndex) => setMinutes(itemValue)}>
@@ -133,9 +135,7 @@ if(initialState == 'start'){
 }else if(initialState == 'initiated'){
   
   return(
-    <View style={styles.container}>
-      <Text></Text>
-    </View>
+    <Counter setStateOne={setInitialState} hours={hours} minutes={minutes} seconds={seconds} setHours={setHours} setMinutes={setHours} setSeconds={setHours}></Counter>
   );
   
 }
