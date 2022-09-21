@@ -122,8 +122,6 @@ if(initialState == 'start'){
               return(<TouchableOpacity onPress={()=> setAlarmClick(val.id)} style={styles.btnChose}><Text style={{color:'white'}}>{val.song}</Text></TouchableOpacity>);
             }
           })
-
-          
         }
         
       </View>
@@ -136,10 +134,7 @@ if(initialState == 'start'){
   
   return(
     <View style={styles.container}>
-      <View>
-      <TouchableOpacity onPress={() => setInitialState('initiated')} style={{alignItems:'center', paddingTop:18}}><MaterialCommunityIcons name="play-box-outline" size={70} color="white" /><Text style={{textAlignVertical:'top', color:'white'}}>START</Text></TouchableOpacity>
-      </View>
-      
+      <Text></Text>
     </View>
   );
   
