@@ -80,7 +80,7 @@ if(initialState == 'select'){
       <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center'}}>
       
         <Text style={{color:'white', fontSize:12}}>Hours</Text>
-            <Picker style={{color:'white', height:50,width:95, textAlign:'right'}} selectedValue={hours} onValueChange={(itemValue, itemIndex) => setHours(itemValue)}>
+            <Picker style={{color:'white', height:50,width:82, textAlign:'center'}} selectedValue={hours} onValueChange={(itemValue, itemIndex) => setHours(itemValue)}>
               <Picker.Item label="0" value="0" />
                 {
                   numbers.map(function(val){
@@ -91,7 +91,7 @@ if(initialState == 'select'){
     
 
         <Text style={{color:'white', fontSize:12}}>Minutes</Text>
-        <Picker style={{color:'white', height:50,width:95}} selectedValue={minutes} onValueChange={(itemValue, itemIndex) => setMinutes(itemValue)}>
+        <Picker style={{color:'white', height:50,width:82}} selectedValue={minutes} onValueChange={(itemValue, itemIndex) => setMinutes(itemValue)}>
            <Picker.Item label="0" value="0" />
             {
               numbers.map(function(val){
@@ -101,7 +101,7 @@ if(initialState == 'select'){
         </Picker>
 
         <Text style={{color:'white', fontSize:12}}>Seconds</Text>
-        <Picker style={{color:'white', height:50,width:95}} selectedValue={seconds} onValueChange={(itemValue, itemIndex) => setSeconds(itemValue)}>
+        <Picker style={{color:'white', height:50,width:82}} selectedValue={seconds} onValueChange={(itemValue, itemIndex) => setSeconds(itemValue)}>
             <Picker.Item label="0" value="0" />
             {
               numbers.map(function(val){
@@ -135,7 +135,7 @@ if(initialState == 'select'){
 }else if(initialState == 'initiated'){
   
   return(
-    <Counter setStateOne={setInitialState} hours={hours} minutes={minutes} seconds={seconds} setHours={setHours} setMinutes={setHours} setSeconds={setHours}></Counter>
+    <Counter setStateOne={setInitialState} hours={hours} minutes={minutes} seconds={seconds} setHours={setHours} setMinutes={setMinutes} setSeconds={setSeconds}></Counter>
   );
   
 }

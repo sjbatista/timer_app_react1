@@ -1,15 +1,67 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Feather } from '@expo/vector-icons'; 
 import App from './App';
 
 export default function Counter(props) {
 
+    var done = false;
+
+    useEffect(() =>{
+
+        const timer = setInterval(()=>{ 
+            props.setSeconds(props.seconds-1);
+
+            if(props.seconds <= 0){
+
+                if(props.minutes > 0){
+                    props.setMinutes(props.minutes-1);
+                    props.setSeconds(59);}
+                    else if(props.hours > 0){
+                        props.setHours(props.hours-1);
+                        props.setMinutes(59);
+                        props.setSeconds(59); 
+                    }else{
+                        if(!done){
+                            done = true;
+                            props.setSeconds(0);
+                            props.setMinutes(0);
+                            props.setHours(0);
+                            alert('Finish !');
+                            props.setStateOne('select');
+                        }
+                       
+                    }
+                        
+                } 
+        },1000)
+
+        return() => clearInterval(timer);
+
+    })
+
    reset = () => {
-    props.setStateOne('select');
+       props.setSeconds(0);
+       props.setMinutes(0);
+       props.setHours(0);
+       props.setStateOne('select');
+
    } 
+
+   formatNumber = (number) => {
+      var finalNumber = "";
+      
+      if(number < 10){
+        finalNumber = "0"+number;
+      }else{
+        finalNumber = number;
+      }
+      
+      return finalNumber;
+
+   }
 
   return (
     <View style={styles.container}>
@@ -28,13 +80,13 @@ export default function Counter(props) {
 
       <Text style={{color:'white', fontSize:25 }}>Counting</Text>
 
-      <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center', marginTop:15}}>
+      <View style={{flexDirection:'row', marginTop:15}}>
       
-        <Text style={{color:'white', fontSize:18}}>{props.hours}</Text>
+        <Text style={{color:'white', fontSize:18}}>{formatNumber(props.hours)}</Text>
         <Text style={{color:'white', fontSize:18, paddingStart:5, paddingEnd:5}}>:</Text>
-        <Text style={{color:'white', fontSize:18}}>{props.minutes}</Text>
+        <Text style={{color:'white', fontSize:18}}>{formatNumber(props.minutes)}</Text>
         <Text style={{color:'white', fontSize:18, paddingStart:5, paddingEnd:5}}>:</Text>
-        <Text style={{color:'white', fontSize:18}}>{props.seconds}</Text>
+        <Text style={{color:'white', fontSize:18}}>{formatNumber(props.seconds)}</Text>
         
       
       </View>
