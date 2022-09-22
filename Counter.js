@@ -1,9 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Feather } from '@expo/vector-icons'; 
-import App from './App';
+import { Audio } from 'expo-av';
 
 export default function Counter(props) {
 
@@ -15,7 +15,6 @@ export default function Counter(props) {
             props.setSeconds(props.seconds-1);
 
             if(props.seconds <= 0){
-
                 if(props.minutes > 0){
                     props.setMinutes(props.minutes-1);
                     props.setSeconds(59);}
@@ -26,21 +25,38 @@ export default function Counter(props) {
                     }else{
                         if(!done){
                             done = true;
+                            playSound();
                             props.setSeconds(0);
                             props.setMinutes(0);
                             props.setHours(0);
                             alert('Finish !');
                             props.setStateOne('select');
-                        }
-                       
-                    }
-                        
+                        } 
+                    }   
                 } 
         },1000)
 
         return() => clearInterval(timer);
 
     })
+
+    async function playSound(){
+      const soundObject = new Audio.Sound();
+        try {
+          var soundOk;
+          props.alarms.map(function(val){
+            if(val.selected == true){
+              soundOk = val.file;
+            }
+          })
+          await soundObject.loadAsync(soundOk);
+          await soundObject.playAsync();
+         
+          //await soundObject.unloadAsync();
+        } catch (error) {
+          // An error occurred!
+        }
+    }
 
    reset = () => {
        props.setSeconds(0);
@@ -60,10 +76,9 @@ export default function Counter(props) {
       }
       
       return finalNumber;
-
    }
 
-  return (
+    return (
     <View style={styles.container}>
       <StatusBar style="auto" />
       <LinearGradient
@@ -81,14 +96,11 @@ export default function Counter(props) {
       <Text style={{color:'white', fontSize:25 }}>Counting</Text>
 
       <View style={{flexDirection:'row', marginTop:15}}>
-      
         <Text style={{color:'white', fontSize:18}}>{formatNumber(props.hours)}</Text>
         <Text style={{color:'white', fontSize:18, paddingStart:5, paddingEnd:5}}>:</Text>
         <Text style={{color:'white', fontSize:18}}>{formatNumber(props.minutes)}</Text>
         <Text style={{color:'white', fontSize:18, paddingStart:5, paddingEnd:5}}>:</Text>
         <Text style={{color:'white', fontSize:18}}>{formatNumber(props.seconds)}</Text>
-        
-      
       </View>
 
 
@@ -96,6 +108,7 @@ export default function Counter(props) {
 
     </View>
   );
+
 }
 
 
@@ -113,11 +126,10 @@ const styles = StyleSheet.create({
   },
 
   btnSelected: {
-    marginRight:10,
-    padding:10,
-    backgroundColor:'rgba(116,67,191,0.2)',
-    borderColor:'white',
-    borderWidth:1
-  
-    }
+  marginRight:10,
+  padding:10,
+  backgroundColor:'rgba(116,67,191,0.2)',
+  borderColor:'white',
+  borderWidth:1
+  }
 });

@@ -1,15 +1,18 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, LogBox} from 'react-native';
 import { useState } from 'react';
 import {Picker} from '@react-native-picker/picker';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import Counter from './Counter'; 
+import Counter from './Counter';
+
 
 export default function App() {
 
-const [initialState, setInitialState] = useState('select');
+  LogBox.ignoreAllLogs();
+//LogBox.ignoreAllLogs();
 
+const [initialState, setInitialState] = useState('select');
 const [seconds, setSeconds] = useState(0);
 const [minutes, setMinutes] = useState(0);
 const [hours, setHours] = useState(0);
@@ -19,21 +22,21 @@ const [alarmSound, setAlarmSound] = useState([
     id:1,
     selected: true,
     song: 'Sound 1',
-    file: 'alarm1.mp3',
+    file: require('./assets/alarme1.mp3'),
   },
   
   {
     id:2,
     selected: false,
     song: 'Sound 2',
-    file: 'alarm2.mp3',
+    file: require('./assets/alarme2.mp3'),
   },
 
   {
     id:3,
     selected: false,
     song: 'Sound 3',
-    file: 'alarm3.mp3',
+    file: require('./assets/alarme3.mp3'),
   }
 
 ]);
@@ -59,6 +62,7 @@ for(var i=1; i<=60;i++){
   numbers.push(i);
 }
 
+
 if(initialState == 'select'){
   return (
     <View style={styles.container}>
@@ -77,9 +81,10 @@ if(initialState == 'select'){
 
       <Text style={{color:'white', fontSize:25 }}>Select time interval:</Text>
 
-      <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center'}}>
+      <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center',paddingTop:25}}>
       
-        <Text style={{color:'white', fontSize:12}}>Hours</Text>
+      <View style={{alignItems:'center'}}>
+      <Text style={{color:'white', fontSize:12}}>Hours</Text>
             <Picker style={{color:'white', height:50,width:82, textAlign:'center'}} selectedValue={hours} onValueChange={(itemValue, itemIndex) => setHours(itemValue)}>
               <Picker.Item label="0" value="0" />
                 {
@@ -88,8 +93,10 @@ if(initialState == 'select'){
                   })
                 } 
             </Picker>
+      </View>
+        
     
-
+      <View style={{alignItems:'center'}}>
         <Text style={{color:'white', fontSize:12}}>Minutes</Text>
         <Picker style={{color:'white', height:50,width:82}} selectedValue={minutes} onValueChange={(itemValue, itemIndex) => setMinutes(itemValue)}>
            <Picker.Item label="0" value="0" />
@@ -99,16 +106,19 @@ if(initialState == 'select'){
               })
             }
         </Picker>
+      </View>
 
+      <View style={{alignItems:'center'}}>      
         <Text style={{color:'white', fontSize:12}}>Seconds</Text>
-        <Picker style={{color:'white', height:50,width:82}} selectedValue={seconds} onValueChange={(itemValue, itemIndex) => setSeconds(itemValue)}>
-            <Picker.Item label="0" value="0" />
+        <Picker style={{color:'white', height:30,width:82}} selectedValue={seconds} onValueChange={(itemValue, itemIndex) => setSeconds(itemValue)}>
+            <Picker.Item label="0" value="0" style={{textAlign:'center', alignSelf:'flex-end'}} />
             {
               numbers.map(function(val){
                 return(<Picker.Item label={val.toString()} value={val.toString()} />);
               })
             }
         </Picker>
+        </View>  
       
       </View>
 
@@ -135,7 +145,9 @@ if(initialState == 'select'){
 }else if(initialState == 'initiated'){
   
   return(
-    <Counter setStateOne={setInitialState} hours={hours} minutes={minutes} seconds={seconds} setHours={setHours} setMinutes={setMinutes} setSeconds={setSeconds}></Counter>
+    <Counter alarms={alarmSound} setStateOne={setInitialState} hours={hours} minutes={minutes} seconds={seconds} setHours={setHours} setMinutes={setMinutes} setSeconds={setSeconds}>
+
+    </Counter>
   );
   
 }
